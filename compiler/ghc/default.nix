@@ -319,7 +319,7 @@ let
           then "ghc966"
         else if buildPackages.haskell.compiler ? ghc964
           then "ghc964"
-        else "ghc962";
+        else "ghc963";
     in
     buildPackages.haskell-nix.cabalProject' ({
       inherit compiler-nix-name;
