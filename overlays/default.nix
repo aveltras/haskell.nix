@@ -88,7 +88,6 @@ let
     android = import ./android.nix;
     tools = import ./tools.nix;
     emscripten = import ./emscripten.nix;
-    nix-prefetch-git-minimal = import ./nix-prefetch-git-minimal.nix;
     gobject-introspection = import ./gobject-introspection.nix;
     hix = import ./hix.nix;
     ghcjs = import ./ghcjs.nix;
@@ -126,7 +125,6 @@ let
     android
     tools
     emscripten
-    nix-prefetch-git-minimal
     ghcjs
     cabalPkgConfig
     gobject-introspection
