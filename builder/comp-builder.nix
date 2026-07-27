@@ -41,7 +41,7 @@
 , hardeningDisable ? component.hardeningDisable
 
 , enableStatic ? component.enableStatic
-, enableShared ? ghc.enableShared && component.enableShared && (!haskellLib.isCrossHost || stdenv.hostPlatform.isWasm)
+, enableShared ? ghc.enableShared && component.enableShared && (!haskellLib.isCrossHost || stdenv.hostPlatform.isWasm || stdenv.hostPlatform.isAndroid)
 , enableExecutableDynamic ? component.enableExecutableDynamic && !stdenv.hostPlatform.isMusl
 , enableDeadCodeElimination ? component.enableDeadCodeElimination
 , writeHieFiles ? component.writeHieFiles

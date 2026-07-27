@@ -40,7 +40,7 @@ let self =
 
 , # Whether to build dynamic libs for the standard library (on the target
   # platform). Static libs are always built.
-  enableShared ? !haskell-nix.haskellLib.isCrossTarget && !stdenv.targetPlatform.isStatic || stdenv.targetPlatform.isWasm
+  enableShared ? (!haskell-nix.haskellLib.isCrossTarget && !stdenv.targetPlatform.isStatic) || stdenv.targetPlatform.isWasm || stdenv.targetPlatform.isAndroid
 
 , enableLibraryProfiling ? true
 
@@ -223,7 +223,7 @@ let
     GhcLibHcOpts += -fPIC
     GhcRtsHcOpts += -fPIC
     GhcRtsCcOpts += -fPIC
-  '' + lib.optionalString (enableRelocatedStaticLibs && targetPlatform.isx86_64 && !targetPlatform.isWindows) ''
+  '' + lib.optionalString (enableRelocatedStaticLibs && !targetPlatform.isWindows) ''
     GhcLibHcOpts += -fexternal-dynamic-refs
     GhcRtsHcOpts += -fexternal-dynamic-refs
   '' + lib.optionalString enableDWARF ''
@@ -422,7 +422,7 @@ let
           " 'stage1.*.ghc.*.opts += -optc-Wno-error=int-conversion -optc-O3 -optc-mcpu=lime1 -optc-mreference-types -optc-msimd128 -optc-DXXH_NO_XXH3'"
         + " 'stage1.*.ghc.cpp.opts += -optc-fno-exceptions'")
       # `-fexternal-dynamic-refs` causes `undefined reference` errors when building GHC cross compiler for windows
-      + lib.optionalString (enableRelocatedStaticLibs && targetPlatform.isx86_64 && !targetPlatform.isWindows)
+      + lib.optionalString (enableRelocatedStaticLibs && !targetPlatform.isWindows)
         " '*.*.ghc.*.opts += -fexternal-dynamic-refs'"
       # With the latest nixpkgs mixing `struct utimbuf` and `struct _utimbuf` causes an error without this
       + lib.optionalString (targetPlatform.isWindows) (

@@ -214,9 +214,8 @@ in {
     (lib.mkIf pkgs.stdenv.hostPlatform.isAndroid {
       cabalProjectLocal = lib.mkBefore ''
         package *
-          ghc-options: -optl-static -optl-ldl${
-            lib.optionalString pkgs.stdenv.hostPlatform.isAarch32 " -optl-no-pie"
-          }
+          -- Idunn patch: APK/native shared builds cannot use -optl-static.
+          ghc-options: -optl-ldl
       '';
     })
     # wasm 9.12+: real wasm-ghc reports `target RTS linker only
